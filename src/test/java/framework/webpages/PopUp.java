@@ -2,7 +2,7 @@ package framework.webpages;
 
 import org.openqa.selenium.By;
 
-public class CheckOutPage extends BasePage{
+public class PopUp extends BasePage{
     private By popUpCardHeader = By.xpath("//header[@class='card__header ']");
     private By popUpCloseButton = By.xpath("//button[@aria-label='close']");
 

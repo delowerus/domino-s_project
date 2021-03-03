@@ -1,11 +1,9 @@
 @web @regression @domino's
-Feature: domino's feature
-
-  Background:
-    Given I am on domino's homepage
+Feature: domino's feature;
 
     @store-pickup-order
-    Scenario: Create a store pickup order for all available speciality pizza
+    Scenario: Create a store pickup order for all available speciality pizzaGiven I am on domino's homepage
+      Given I am on dominos homepage
       When I select carryout
       Then I enter zip code
       And  I enter search location

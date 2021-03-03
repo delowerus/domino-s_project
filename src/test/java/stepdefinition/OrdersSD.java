@@ -12,15 +12,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class OrdersSD {
-    WebDriver driver;
-
     HomePage homePage = new HomePage();
-    SearchPage searchPage = new SearchPage();
-    LocationResultPage locationResultPage = new LocationResultPage();
-    AllEntryPage allEntryPage = new AllEntryPage();
+    StoreLocatorPage storeLocatorPage = new StoreLocatorPage();
+    LocationResultsPage locationResultPage = new LocationResultsPage();
+    MenuPage allEntryPage = new MenuPage();
     SpecialityPizzaPage specialityPizzaPage = new SpecialityPizzaPage();
-    CheckOutPage checkOutPage = new CheckOutPage();
-    ContinueCheckOutPage continueCheckOutPage = new ContinueCheckOutPage();
+    PopUp menuPage = new PopUp();
+    CartPage cartPage = new CartPage();
+    CheckoutPage checkoutPage = new CheckoutPage();
 
     @Given("^I am on dominos homepage$")
     public void iAmOnHomePage() throws InterruptedException {
@@ -33,29 +32,17 @@ public class OrdersSD {
 
     @When("^I select carryout$")
     public void iSelectCarryout(){
-        try{
-            //Wait 10 seconds till alert is present
-
-            WebDriverWait wait = new WebDriverWait(driver, 10);
-            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-
-            //Accepting alert.
-            alert.accept();
-            System.out.println("Accepted the alert successfully.");
-        }catch(Throwable e){
-            System.err.println("Error came while waiting for the alert popup. "+e.getMessage());
-        }
         homePage.checkCarryout();
     }
 
     @Then("^I enter zip code$")
     public void iEnterZipCode(){
-        searchPage.enterPostalCode("11428");
+        storeLocatorPage.enterPostalCode("11428");
     }
 
     @And("^I enter search location$")
     public void iEnterSearch(){
-        searchPage.iClickOnSearchButton();
+        storeLocatorPage.iClickOnSearchButton();
     }
 
     @Then("^I select the first store$")
@@ -93,13 +80,26 @@ public class OrdersSD {
     @Then("^I close any upSell popup$")
     public void iClosePopUp() throws InterruptedException {
         Thread.sleep(3000);
-        checkOutPage.closePopUp();
+        menuPage.closePopUp();
     }
 
     @And("^I click continue checkout$")
     public void iCkickOnContinueCheckOut(){
-        continueCheckOutPage.clickOnContinueCheckButton();
+        cartPage.clickOnContinueCheckButton();
+    }
 
+    @Then("^I verify checkout page has displayed$")
+    public void iVerifyCheckoutPageDisplayed(){
+        String expectedPageTitle = "CHECKOUT";
+        String actualPageTitle = checkoutPage.getCheckoutPageHeader();
+        Assert.assertEquals(expectedPageTitle, actualPageTitle);
+    }
+
+    @Then("^Verify place your order button is functional$")
+    public void iVerifyPlaceOrderButtonIsFunctional(){
+        //String previousUrl = checkoutPage.getCheckoutPageUrl();
+        checkoutPage.clickOnPlaceYourOrderButton();
+        Assert.assertTrue(checkoutPage.isPaymentTypeErrorDisplayed());
     }
 }
 

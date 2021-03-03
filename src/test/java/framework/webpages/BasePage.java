@@ -59,7 +59,16 @@ public class BasePage {
             e.printStackTrace();
             System.out.println("No such element found with locator: " + locator);
         }
+
         return isDisplayed;
+    }
+
+    public boolean isButtonEnabled(By locator) {
+        return webAction(locator).isEnabled();
+    }
+
+    public String getTextFromElement(By locator) {
+        return webAction(locator).getText();
     }
 
     public WebElement getWebElement(By locator){
